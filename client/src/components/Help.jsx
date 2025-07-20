@@ -66,7 +66,7 @@ const Help = () => {
           </div>
 
           <div className="mt-10 text-sm text-gray-500 border-t pt-4">
-            Still need help? Please visit the <span className="text-indigo-600 underline cursor-pointer"> <a href="/contact">Contact</a></span> page or email us at <strong>support@mmscollege.com</strong>.
+            Still need help? Please visit the <span><strong>Contact</strong></span> page or email us at <strong>support@mmscollege.com</strong>.
           </div>
         </div>
       </div>

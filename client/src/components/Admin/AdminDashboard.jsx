@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const AdminDashboard = () => {
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalIssues: 0,
-    pendingIssues: 0,
-    resolvedIssues: 0,
-  });
+  const [stats, setStats] = useState({})
 
   const [recentIssues, setRecentIssues] = useState([]);
 
@@ -38,9 +33,9 @@ const AdminDashboard = () => {
         <Card title="Resolved Issues" value={stats.resolvedIssues} color="bg-green-100" />
       </div>
 
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">📝 Recent Issues</h2>
-        <div className="bg-white rounded-lg shadow overflow-x-auto">
+      <div className="mt-15">
+        <h2 className="text-xl font-semibold text-gray-800 mb-7">📝 Recent Issues</h2>
+        <div className="bg-white rounded-lg shadow overflow-x-auto mb-7">
           <table className="w-full table-auto text-sm">
             <thead className="bg-gradient-to-br from-indigo-100 to-blue-700 text-gray-800">
               <tr>

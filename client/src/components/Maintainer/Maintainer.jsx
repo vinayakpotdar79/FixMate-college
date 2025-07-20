@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../Navbar";
-
+import Footer from "../../Footer";
 const Maintainer = () => {
   const navigate = useNavigate();
 
