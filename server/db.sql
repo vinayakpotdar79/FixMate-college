@@ -23,6 +23,12 @@ CREATE TABLE issues (
 );
 ALTER TABLE users ADD CONSTRAINT unique_username UNIQUE(username);
 ALTER TABLE users ADD CONSTRAINT unique_email UNIQUE(email);
+create table contact(
+  id serial primary key,
+  name text not null,
+  email text not null unique,
+	message text not null 
+)
 
 drop table issues
 drop table users

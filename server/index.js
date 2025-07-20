@@ -348,6 +348,26 @@ app.get("/auth/check", (req, res) => {
   } else {
 res.status(401).json({ authenticated: "Unauthorized" });  }
 });
+
+app.post("/contact",async(req,res)=>{
+let {name,email,message}=req.body;
+try {
+    // Insert the contact form data into the database
+    const result = await db.query(
+      'INSERT INTO contact (name, email, message) VALUES ($1, $2, $3) RETURNING *',
+      [name, email, message]
+    );
+
+    // Send success response
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    console.error('Error saving contact form:', error);
+    
+res.status(500).json({message:"Failed submitting form "});
+}
+})
 app.post("/logout",(req,res)=>{
  req.logout(function (err) {
     if (err) {
@@ -358,6 +378,7 @@ app.post("/logout",(req,res)=>{
       res.status(200).json({ message: "Logged out successfully" });
     });
   });});
+
 
 app.listen(PORT,() => {
   console.log(`Server running on http://localhost:${PORT}`);
