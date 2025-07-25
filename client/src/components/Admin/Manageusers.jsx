@@ -5,7 +5,7 @@ const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
   const [newUser, setNewUser] = useState({ username: "",email: "", password: "",phone:"", role: "reporter" });
-
+  const [error, setError] = useState("");
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -32,6 +32,10 @@ const ManageUsers = () => {
   };
 
   const handleAddUser = () => {
+    if (!newUser.username || !newUser.email || !newUser.password || !newUser.phone) {
+      setError("All fields are required");
+      return;
+    }
     axios.post("http://localhost:3000/users", newUser, { withCredentials: true })
       .then(() => {
         setNewUser({ username: "", email: "", password: "",phone:"", role: "reporter" });
@@ -43,20 +47,26 @@ const ManageUsers = () => {
     <div className="p-6  bg-gradient-to-br from-violet-100 to-indigo-100">
       <h2 className="text-2xl font-bold mb-4">👥 Manage Users</h2>
 
+        {error && (
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+          {error}
+        </div>
+      )}   
+      
       {/* Add User Form */}
       <div className="mb-6 p-4 bg-gray-100 rounded">
         <h3 className="text-lg font-semibold mb-2">➕ Add New User</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-          <input type="text" placeholder="Username" value={newUser.username}
+          <input type="text" placeholder="Username" value={newUser.username} required
             onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
             className="p-2 border rounded" />
-          <input type="email" placeholder="Email" value={newUser.email}
+          <input type="email" placeholder="Email" value={newUser.email} required
             onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
             className="p-2 border rounded" />
-          <input type="password" placeholder="Password" value={newUser.password}
+          <input type="password" placeholder="Password" value={newUser.password} required
             onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
             className="p-2 border rounded" />
-             <input type="number" placeholder="Contact No." value={newUser.phone}
+             <input type="number" placeholder="Contact No." value={newUser.phone} required
             onChange={(e) => setNewUser({ ...newUser, phone: e.target.value })}
             className="p-2 border rounded" />
           <select value={newUser.role}
