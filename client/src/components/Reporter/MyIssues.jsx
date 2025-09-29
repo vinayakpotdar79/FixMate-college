@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import axios from "axios";
-
+import API from "../../api";
 const MyIssues = () => {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,9 +9,7 @@ const MyIssues = () => {
   useEffect(() => {
     const fetchIssues = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/myissues", {
-          withCredentials: true, // Required if using cookies for auth
-        });
+        const res = await API.get("/myissues");
         console.log(res.data);
         setIssues(res.data.issues || []);
       } catch (err) {

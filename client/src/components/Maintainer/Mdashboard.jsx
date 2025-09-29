@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
-
+import API from "../../api";
 const Mdashboard = () => {
   const [stats, setStats] = useState({
     total: 0,
@@ -12,9 +12,8 @@ const Mdashboard = () => {
   });
 
   useEffect(() => {
-    axios.defaults.withCredentials = true;
-    axios
-      .get("http://localhost:3000/issues")
+    API
+      .get("/issues")
       .then((res) => {
         const allIssues = res.data.issues || [];
         const resolved = allIssues.filter((i) => i.status === "resolved").length;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-
+import API from "../../api";
 const AllIssues = () => {
   const [issues, setIssues] = useState([]);
   const [sortBy, setSortBy] = useState("created_at");
@@ -15,9 +15,7 @@ const AllIssues = () => {
   const fetchIssues = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.get("http://localhost:3000/issues", {
-        withCredentials: true,
-      });
+      const res = await API.get("/issues");
 
       let sorted = [...res.data.issues];
       

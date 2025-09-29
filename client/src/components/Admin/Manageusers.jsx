@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import API from "../../api";
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
@@ -11,20 +11,20 @@ const ManageUsers = () => {
   }, []);
 
   const fetchUsers = () => {
-    axios.get("http://localhost:3000/users", { withCredentials: true })
+    API.get("/users", { withCredentials: true })
       .then((res) => {setUsers(res.data.users)
     console.log(res.data.users)})
       .catch((err) => console.error(err));
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:3000/users/${id}`, { withCredentials: true })
+    API.delete(`/users/${id}`)
       .then(() => fetchUsers())
       .catch((err) => console.error(err));
   };
 
   const handleUpdate = () => {
-    axios.patch(`http://localhost:3000/users/${editingUser.id}`, editingUser, { withCredentials: true })
+    API.patch(`/users/${editingUser.id}`, editingUser)
       .then(() => {
         setEditingUser(null);
         fetchUsers();
@@ -36,7 +36,7 @@ const ManageUsers = () => {
       setError("All fields are required");
       return;
     }
-    axios.post("http://localhost:3000/users", newUser, { withCredentials: true })
+    API.post("/users", newUser)
       .then(() => {
         setNewUser({ username: "", email: "", password: "",phone:"", role: "reporter" });
         fetchUsers();

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import API from "../../api";
 const AdminDashboard = () => {
   const [stats, setStats] = useState({})
 
@@ -8,16 +8,16 @@ const AdminDashboard = () => {
 
   // Fetch statistics
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/stats", { withCredentials: true })
+    API
+      .get("/stats")
       .then((res) => setStats(res.data))
       .catch((err) => console.error("Error fetching stats", err));
   }, []);
 
   // Fetch recent issues
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/issues", { withCredentials: true })
+    API
+      .get("/issues")
       .then((res) => setRecentIssues(res.data.issues || []))
       .catch((err) => console.error("Error fetching recent issues", err));
   }, []);

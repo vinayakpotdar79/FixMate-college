@@ -2,14 +2,15 @@ import { useEffect } from 'react';
 import Navbar from './Navbar';
 import { useNavigate, useSearchParams } from 'react-router-dom'; 
 import axios from 'axios';
+import API from '../api';
+
 const Help = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const role = searchParams.get('role');
 
    useEffect(() => {
-    axios.defaults.withCredentials = true;
-    axios.get("http://localhost:3000/auth/check")
+    API.get("/auth/check")
       .then((res) => {
         console.log(res.data.authenticated);
       })

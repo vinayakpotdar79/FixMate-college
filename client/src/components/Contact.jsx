@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 import Navbar from './Navbar';
 import { useNavigate, useSearchParams } from 'react-router-dom'; 
 import axios from 'axios';
+import API from '../api';
 
 const Contact = () => {
   const [searchParams] = useSearchParams();
@@ -16,8 +17,7 @@ const Contact = () => {
   const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
-    axios.defaults.withCredentials = true;
-    axios.get("http://localhost:3000/auth/check")
+    API.get("/auth/check")
       .then((res) => {
         console.log(res.data.authenticated);
       })
@@ -39,9 +39,7 @@ const Contact = () => {
     e.preventDefault();
     try {
       // Send form data to your backend
-      await axios.post("http://localhost:3000/contact", formData, {
-        withCredentials: true
-      });
+      await API.post("/contact", formData);
       
       // Show success message
       setShowSuccess(true);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Navbar from "../Navbar";
-
+import API from "../../api";
 const ReportIssue = () => {
   const [form, setForm] = useState({
     floor: "",
@@ -62,7 +62,7 @@ const roomsByFloor = [
   };
 
   try {
-    const res = await axios.post("http://localhost:3000/report-issue", issueData);
+    const res = await API.post("/report-issue", issueData);
        setForm({
         floor: "",
         room: "",

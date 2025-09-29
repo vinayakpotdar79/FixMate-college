@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API from '../api';
+
 export default function Navbar({role}) {
   const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
@@ -26,7 +28,7 @@ export default function Navbar({role}) {
 
     const logoutUser = async () => {
     try {
-      await axios.post("http://localhost:3000/logout", {}, { withCredentials: true });
+      await API.post("/logout", {}, { withCredentials: true });
       navigate("/"); // 👈 Redirect to login/home
     } catch (err) {
       console.error("Logout failed:", err);

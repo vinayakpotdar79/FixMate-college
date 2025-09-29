@@ -6,7 +6,7 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/profile", { withCredentials: true })
+    API.get("/profile")
       .then((res) => {
         setUser(res.data);
         setIsLoading(false);

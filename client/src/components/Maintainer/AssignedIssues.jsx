@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
-
+import API from "../../api";
 const AssignedIssues = () => {
   const [issues, setIssues] = useState([]);
   const [expandedIssue, setExpandedIssue] = useState(null);
@@ -12,9 +12,7 @@ const AssignedIssues = () => {
   }, []);
 
   const fetchIssues = () => {
-    axios.defaults.withCredentials = true;
-    axios
-      .get("http://localhost:3000/assigned-issues")
+      API.get("/assigned-issues")
       .then((res) => {
         setIssues(res.data.issues || []);
       })
@@ -49,8 +47,8 @@ const AssignedIssues = () => {
 
   const handleResolve = async (issueId) => {
     try {
-      await axios.patch(
-        `http://localhost:3000/issues/${issueId}`,
+      await API.patch(
+        `/issues/${issueId}`,
         { status: "resolved", remark },
         { withCredentials: true }
       );

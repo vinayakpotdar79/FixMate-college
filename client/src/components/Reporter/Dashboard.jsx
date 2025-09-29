@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { format } from "date-fns";
-
+import API from "../../api";
 const ReporterDashboard = () => {
   const [stats, setStats] = useState({
     total: 0,
@@ -12,8 +12,7 @@ const ReporterDashboard = () => {
   });
 
   useEffect(() => {
-  axios.defaults.withCredentials = true;
-  axios.get("http://localhost:3000/dashboard")
+  API.get("/dashboard")
     .then((res) => {
       const allIssues = res.data.issues;
       console.log(allIssues)

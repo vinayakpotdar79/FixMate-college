@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import API from '../api';
 const Login = () => {
   const [input, setInput] = useState({ username: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
@@ -26,8 +26,7 @@ const Login = () => {
     setMessage(""); // Reset any previous error
 
     try {
-      axios.defaults.withCredentials = true;
-      const res = await axios.post("http://localhost:3000/login", {
+      const res = await API.post("/login", {
         username: input.username,
         password: input.password,
         role,
