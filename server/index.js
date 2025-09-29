@@ -7,6 +7,8 @@ import session from "express-session";
 import { Strategy } from "passport-local";
 import bcrypt, { hash } from "bcrypt";
 import dotenv from "dotenv";
+import pkg from "pg";
+const { Pool } = pkg;
 dotenv.config();
 
 const app = express();
@@ -24,15 +26,19 @@ app.use(
 );
 
 // PostgreSQL setup
-const db = new pg.Client({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-});
+// const db = new pg.Client({
+//   user: process.env.DB_USER,
+//   host: process.env.DB_HOST,
+//   database: process.env.DB_NAME,
+//   password: process.env.DB_PASSWORD,
+//   port: process.env.DB_PORT,
+// });
 
-db.connect();
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false } // needed for Neon
+});
+// db.connect();
 
 // CORS
 app.use(
