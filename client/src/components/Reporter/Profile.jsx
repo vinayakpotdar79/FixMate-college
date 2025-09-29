@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import API from "../../api";
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
