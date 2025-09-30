@@ -21,9 +21,11 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 *60}, // 1 hour
-    sameSite: "none",       // allow cross-site cookies
-    secure:true
+      cookie: {
+      maxAge: 1000 * 60 * 60, // 1 hour
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production", // true only in production
+    },
   })
 );
 
@@ -43,11 +45,20 @@ const db = new Pool({
 // db.connect();
 
 // CORS
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://fix-mate-college.vercel.app",
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
-  methods: ["GET", "POST", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 
