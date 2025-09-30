@@ -23,7 +23,7 @@ app.use(
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 *60}, // 1 hour
     sameSite: "none",       // allow cross-site cookies
-    secure:true //works on https only
+    secure:true
   })
 );
 
@@ -43,24 +43,13 @@ const db = new Pool({
 // db.connect();
 
 // CORS
-const allowedOrigins = [
-  "https://myfrontend.vercel.app",
-  "http://localhost:5173" // for local dev
-];
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
-app.use(
-  cors({
-    origin: function(origin, callback) {
-      if (!origin) return callback(null, true); // allow REST tools like Postman
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = "The CORS policy for this site does not allow access from the specified origin.";
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
-    credentials: true,
-  })
-);
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
