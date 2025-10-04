@@ -21,11 +21,9 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-      cookie: {
-      maxAge: 1000 * 60 * 60, // 1 hour
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      secure: process.env.NODE_ENV === "production", // true only in production
-    },
+    cookie: { maxAge: 1000 * 60 *60}, // 1 hour
+    sameSite: "none",       // allow cross-site cookies
+    secure:true
   })
 );
 
