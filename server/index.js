@@ -101,7 +101,7 @@ app.use(
 // CORS
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://college-plum-alpha.vercel.app",
+  "https://fix-mate-college.vercel.app",
   process.env.FRONTEND_URL,
 ].filter(Boolean); // remove any undefined values
 
