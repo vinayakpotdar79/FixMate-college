@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import API from '../api';
+import API from "../api";
 
-export default function Navbar({role}) {
+export default function Navbar({ role }) {
   const [isOpen, setIsOpen] = useState(false);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const navLinks = {
     reporter: [
       { name: "Dashboard", path: "/reporter/dashboard" },
@@ -26,7 +26,7 @@ export default function Navbar({role}) {
 
   const links = navLinks[role] || [];
 
-    const logoutUser = async () => {
+  const logoutUser = async () => {
     try {
       await API.post("/logout", {}, { withCredentials: true });
       navigate("/"); // 👈 Redirect to login/home
@@ -37,7 +37,7 @@ export default function Navbar({role}) {
 
   return (
     <>
-        <nav className="bg-gradient-to-r from-violet-600 to-indigo-700 text-white shadow-md">
+      <nav className="bg-gradient-to-r from-violet-600 to-indigo-700 text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             {/* Left-aligned Hamburger */}
@@ -49,13 +49,19 @@ export default function Navbar({role}) {
               >
                 ☰
               </button>
-              <Link to={`/${role}/dashboard`} className="text-3xl font-bold text-blue-400">
-             <div className="flex items-center space-x-3">
-             <img src="https://cdn-icons-png.flaticon.com/128/18208/18208249.png" alt="Maintenance Icon"className="w-10 h-10"
-               />
-             <span>FixMate</span>
-             </div>
-            </Link>
+              <Link
+                to={`/${role}/dashboard`}
+                className="text-3xl font-bold text-blue-400"
+              >
+                <div className="flex items-center space-x-3">
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/128/18208/18208249.png"
+                    alt="Maintenance Icon"
+                    className="w-10 h-10"
+                  />
+                  <span>FixMate</span>
+                </div>
+              </Link>
             </div>
 
             {/* Desktop links */}
@@ -64,18 +70,35 @@ export default function Navbar({role}) {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className=" hover:text-blue-400 transition">
+                  className=" hover:text-blue-400 transition"
+                >
                   {link.name}
                 </Link>
               ))}
-              <Link to={`/${role}/profile`}  className="hover:text-blue-400 transition">
+              <Link
+                to={`/${role}/profile`}
+                className="hover:text-blue-400 transition"
+              >
                 Profile
               </Link>
-               <Link to={`/help?role=${role}`} className=" hover:text-blue-400 transition">Help</Link>
-              <Link to={`/contact?role=${role}`}className=" hover:text-blue-400 transition">Contact</Link>
-              <Link to="/logout" className="text-red-600 font-semibold">
-                Logout
+              <Link
+                to={`/help?role=${role}`}
+                className=" hover:text-blue-400 transition"
+              >
+                Help
               </Link>
+              <Link
+                to={`/contact?role=${role}`}
+                className=" hover:text-blue-400 transition"
+              >
+                Contact
+              </Link>
+              <button
+                onClick={logoutUser}
+                className="text-red-600 font-semibold hover:text-red-400 transition"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </div>
@@ -97,7 +120,12 @@ export default function Navbar({role}) {
       >
         <div className="p-4 border-b bg-gradient-to-r from-violet-600 to-indigo-700 flex  justify-between items-center">
           <h2 className="text-xl  font-bold text-blue-400">Menu</h2>
-          <button onClick={() => setIsOpen(false)} className="text-gray-600 text-xl">✖</button>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-gray-600 text-xl"
+          >
+            ✖
+          </button>
         </div>
         <nav className="flex flex-col px-4 py-4 space-y-3">
           {links.map((link) => (
@@ -117,14 +145,24 @@ export default function Navbar({role}) {
           >
             Profile
           </Link>
-          <Link to={`/help?role=${role}`} className="text-gray-800 text-lg hover:text-blue-600">Help</Link>
-         <Link to={`/contact?role=${role}`} className="text-gray-800 text-lg hover:text-blue-600">Contact</Link>
+          <Link
+            to={`/help?role=${role}`}
+            className="text-gray-800 text-lg hover:text-blue-600"
+          >
+            Help
+          </Link>
+          <Link
+            to={`/contact?role=${role}`}
+            className="text-gray-800 text-lg hover:text-blue-600"
+          >
+            Contact
+          </Link>
 
           <Link
             to="/logout"
             onClick={() => {
               logoutUser();
-              setIsOpen(false)
+              setIsOpen(false);
             }}
             className="text-red-600 text-lg font-semibold"
           >
