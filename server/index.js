@@ -11,6 +11,7 @@ import dotenv from "dotenv";
 import pkg from "pg";
 const { Pool } = pkg;
 dotenv.config();
+import nodemailer from "nodemailer";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -287,6 +288,88 @@ app.post("/report-issue", async (req, res) => {
       "INSERT INTO issues(user_id,floor,room,device,description,priority,created_at) VALUES ($1,$2,$3,$4,$5,$6,$7)",
       [user_id, floor, room, device, description, priority, createdAt]
     );
+
+       // Fetch all maintainers emails
+    const maintainers = await db.query(
+      "SELECT username, email FROM users WHERE role = 'maintainer'"
+    );
+
+    if (maintainers.rows.length === 0) {
+      console.warn("⚠️ No maintainers found to notify.");
+    } else {
+      //  Configure transporter once
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+
+      //Loop through maintainers and send email
+      for (const maintainer of maintainers.rows) {
+        const subject = "🛠️ New Issue Reported in FixMate";
+        const text = `Hello ${maintainer.username},
+
+A new issue has been reported in FixMate.
+
+Details:
+- Floor: ${floor}
+- Room: ${room}
+- Device: ${device}
+- Priority: ${priority}
+- Description: ${description}
+
+Please log in to FixMate to check and take necessary action.
+
+– FixMate Team`;
+
+        const html = `
+          <h2>New Issue Reported 🛠️</h2>
+          <p>Hello <b>${maintainer.username}</b>,</p>
+          <p>A new issue has been reported in <b>FixMate</b>.</p>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-family: Arial, sans-serif;">
+        <tr>
+      <th style="text-align: left; padding: 8px; background-color: #f4f4f4; border: 1px solid #ddd;">Field</th>
+       <th style="text-align: left; padding: 8px; background-color: #f4f4f4; border: 1px solid #ddd;">Details</th>
+       </tr>
+       <tr>
+    <td style="padding: 8px; border: 1px solid #ddd;">Floor</td>
+    <td style="padding: 8px; border: 1px solid #ddd;">${floor}</td>
+    </tr>
+    <tr>
+    <td style="padding: 8px; border: 1px solid #ddd;">Room</td>
+    <td style="padding: 8px; border: 1px solid #ddd;">${room}</td>
+    </tr>
+     <tr>
+    <td style="padding: 8px; border: 1px solid #ddd;">Device</td>
+    <td style="padding: 8px; border: 1px solid #ddd;">${device}</td>
+    </tr>
+    <tr>
+    <td style="padding: 8px; border: 1px solid #ddd;">Priority</td>
+    <td style="padding: 8px; border: 1px solid #ddd;">${priority}</td>
+    </tr>
+    <tr>
+    <td style="padding: 8px; border: 1px solid #ddd;">Description</td>
+    <td style="padding: 8px; border: 1px solid #ddd;">${description}</td>
+    </tr>
+        </table>
+
+          <p><a href="http://localhost:3000/maintainer/issues" target="_blank">View on FixMate Dashboard</a></p>
+          <p>– FixMate Team</p>
+        `;
+
+        await transporter.sendMail({
+          from: `"FixMate Support" <${process.env.EMAIL_USER}>`,
+          to: maintainer.email,
+          subject,
+          text,
+          html,
+        });
+
+        console.log(`✅ Email sent successfully to ${maintainer.email}`);
+      }
+    }
     res.status(200).json({
       success: true,
       message: "Issue reported successfully",
