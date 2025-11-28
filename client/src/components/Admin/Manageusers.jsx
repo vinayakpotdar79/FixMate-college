@@ -63,7 +63,7 @@ const ManageUsers = () => {
           <input type="email" placeholder="Email" value={newUser.email} required
             onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
             className="p-2 border rounded" />
-          <input type="password" placeholder="Password" value={newUser.password} required
+          <input type="text" placeholder="Password" value={newUser.password} required
             onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
             className="p-2 border rounded" />
              <input type="number" placeholder="Contact No." value={newUser.phone} required
