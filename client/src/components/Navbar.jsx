@@ -53,7 +53,7 @@ export default function Navbar({ role }) {
                 to={`/${role}/dashboard`}
                 className="text-3xl font-bold text-blue-400"
               >
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-1">
                   <img
                     src="/assets/FIX-favicon.png"
                     alt="Maintenance Icon"
