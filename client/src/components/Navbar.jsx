@@ -55,9 +55,9 @@ export default function Navbar({ role }) {
               >
                 <div className="flex items-center space-x-3">
                   <img
-                    src="https://cdn-icons-png.flaticon.com/128/18208/18208249.png"
+                    src="/assets/FIX-favicon.png"
                     alt="Maintenance Icon"
-                    className="w-10 h-10"
+                    className="w-25 h-20"
                   />
                   <span>FixMate</span>
                 </div>
